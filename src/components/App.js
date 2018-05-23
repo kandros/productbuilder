@@ -7,7 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      paginaAttiva: "models"
+      activeCar: "bmwi3",
+      totalPrice: 0,
+      activePage: ""
     };
     this.changePage = () => {};
   }
@@ -16,7 +18,7 @@ class App extends Component {
       <div className="app">
         <HeaderComponent />
         <MainComponent />
-        <FooterComponent />
+        <FooterComponent activeCar={this.state.activeCar} />
       </div>
     );
   }
