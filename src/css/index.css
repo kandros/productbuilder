@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: lato, sans-serif;
+  color: #414141;
+  font-size: 1.6rem;
+  letter-spacing: 0.08rem;
+  overflow: hidden;
+}
+ul {
+  list-style: none;
+}

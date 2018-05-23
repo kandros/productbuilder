@@ -1,0 +1,153 @@
+/* Custom Properties */
+:root {
+  --mainColor: #ffb500;
+  --mainColor--lighter: #ffbc1a;
+  --textColor: #5d7c89;
+}
+
+/* App */
+.app {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* Header */
+.header {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 2.4rem;
+  margin: 2rem;
+  margin-bottom: 1.25rem;
+  color: #212121;
+}
+
+/* Header Nav */
+.header__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav--link {
+  text-decoration: none;
+  color: var(--textcolor);
+  display: block;
+  font-size: 0.9rem;
+  padding: 1rem 0.9rem;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+  transition: border 0.3s ease, color 0.3s ease;
+  opacity: 0.8;
+}
+
+.nav--link:hover {
+  color: var(--mainColor);
+}
+
+/* Main */
+.main {
+  width: 100%;
+  height: calc(100% - 250px);
+}
+
+/* Page */
+.page {
+  width: 100%;
+  height: 100%;
+}
+.ul__page {
+  width: 950px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.ul__car {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.car__img {
+  width: 100%;
+  height: auto;
+  padding: 1.5rem 3rem;
+}
+
+.car {
+  width: 48%;
+  border: 2px solid #eee;
+  border-radius: 4px;
+  padding: 3rem 0;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+.car__header {
+  font-size: 1.4rem;
+}
+
+.car__header h2 {
+  text-align: center;
+}
+
+.car__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+  margin-bottom: 0.5rem;
+}
+
+.car__footer-price {
+  font-size: 0.9rem;
+  color: var(--textColor);
+  margin-bottom: 1rem;
+}
+
+.car__footer-check {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.car__footer-check img {
+  width: 20px;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.check {
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border: 3px solid #eee;
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+  transform: scale(0.6);
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.04), 0 0 0px rgba(0, 0, 0, 0.03),
+    0 -5px 30px rgba(0, 0, 0, 0.025), 0 -10px 40px rgba(0, 0, 0, 0.03);
+}
