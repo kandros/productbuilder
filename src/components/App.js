@@ -252,13 +252,15 @@ class App extends Component {
       });
     };
     // Method that update the car element selected
-    this.updateCarElements = (elementType, nameElement, price) => {
+    this.updateCarElements = (elementType, nameElement, price, remove) => {
       // Get the car object
       const carObject = this.state.carModelItems;
       // Get the current car
       let currentCar = carObject[this.state.activeModelCar.toLowerCase()];
       // Get the list object
       const listObject = this.state.listAttr;
+      // Define object price
+      let totalPrice = {};
       // Update the object
       if (elementType === "car") {
         // Update the car object
@@ -271,6 +273,8 @@ class App extends Component {
           currentCar["colors"][currentColor]["colorCode"];
         listObject["color"]["price"] =
           currentCar["colors"][currentColor]["colorPrice"];
+        // Update the price
+        totalPrice = this.updateCurrentPrice("car", price);
       } else if (elementType === "color") {
         // Update the color object
         listObject[elementType]["name"] = nameElement;
@@ -278,11 +282,14 @@ class App extends Component {
           currentCar["colors"][nameElement]["colorPrice"];
         listObject[elementType]["code"] =
           currentCar["colors"][nameElement]["colorCode"];
+        // Update the price
+        totalPrice = this.updateCurrentPrice("color", price);
       } else if (elementType === "accessories") {
         // Check if the user decide to uncheck the accessorie
-        if (price === "remove") {
+        if (remove === true) {
           // Remove the accessorie from object
           delete listObject[elementType][nameElement];
+          price = -Math.abs(price);
         } else {
           let newAccessorie = {};
           // Create a new accessorie object
@@ -290,11 +297,50 @@ class App extends Component {
           //  Update the accessorie object
           listObject[elementType][nameElement] = newAccessorie;
         }
+        // Update the price
+        totalPrice = this.updateCurrentPrice("accessories", price);
       }
 
       // Return the object
       return {
-        listAttr: listObject
+        listAttr: listObject,
+        totalPrice: totalPrice
+      };
+    };
+    // Method that update the current price
+    this.updateCurrentPrice = (nameElement, price) => {
+      // Get the actual total price object
+      let actualTotalPrice = this.state.totalPrice;
+      // Define a partial current price
+      let partialTotalPrice = 0;
+
+      // Update the main object
+      if (nameElement !== "accessories") {
+        actualTotalPrice[nameElement] = Number(price);
+      } else {
+        actualTotalPrice[nameElement] =
+          actualTotalPrice[nameElement] + Number(price);
+      }
+
+      // Update the total price
+      for (let key in actualTotalPrice) {
+        if (actualTotalPrice.hasOwnProperty(key)) {
+          if (key === "total") {
+          } else {
+            // Sum all the prices
+            partialTotalPrice = Number(
+              partialTotalPrice + actualTotalPrice[key]
+            );
+          }
+        }
+      }
+
+      // Update the total in the main object
+      actualTotalPrice["total"] = partialTotalPrice;
+
+      // Return object
+      return {
+        totalPrice: actualTotalPrice
       };
     };
     // Method that change the car selected
@@ -342,7 +388,6 @@ class App extends Component {
 
         // Update the car elements
         let objPrice = this.updateCarElements("car", elementModel, basicPrice);
-
         // Update the state
         this.setState({
           carModelItems: arrayCarElements,
@@ -429,9 +474,10 @@ class App extends Component {
             let objPrice = this.updateCarElements(
               "accessories",
               thisAccessorieName,
+              price,
               element["accessories"][thisAccessorieName]["active"] === true
-                ? price
-                : "remove"
+                ? false
+                : true
             );
 
             this.setState({
