@@ -3,6 +3,7 @@
     "bmwi8": {
       "model": "BMWi8",
       "activeCar": "bmwi8--grey",
+      "defaultColor": "grey",
       "colors": {
         "grey": {
           "colorName": "grey",
@@ -48,6 +49,7 @@
     "bmwi3": {
       "model": "BMWi3",
       "activeCar": "bmwi3--white",
+      "defaultColor": "white",
       "colors": {
         "white": {
           "colorName": "white",

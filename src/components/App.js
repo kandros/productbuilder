@@ -20,11 +20,23 @@ class App extends Component {
       activeModelCar: "BMWI8",
       showPopup: false,
       listAttr: {
-        car: "",
-        color: 0,
+        car: {
+          model: "",
+          price: 0
+        },
+        color: {
+          name: "",
+          code: "",
+          price: 0
+        },
         accessories: {}
       },
-      totalPrice: 0,
+      totalPrice: {
+        car: 0,
+        color: 0,
+        accessories: 0,
+        total: 0
+      },
       menuItems: [
         {
           name: "MODELS",
@@ -239,58 +251,50 @@ class App extends Component {
         isMainPage: newActivePage !== this.state.mainPage ? false : true
       });
     };
-    // Method that update the car price
-    this.updateTotalPrice = (elementType, nameElement, price) => {
-      // Get the global object
-      const globalObject = this.state.listAttr;
-      // Declare variable total price
-      let totalPartialPrice = 0;
-      // Check if the user is adding a main element or a sub-element
-      if (elementType === "main-attr") {
-        // Add the attr to the price list
-        globalObject[nameElement] = price;
+    // Method that update the car element selected
+    this.updateCarElements = (elementType, nameElement, price) => {
+      // Get the car object
+      const carObject = this.state.carModelItems;
+      // Get the current car
+      let currentCar = carObject[this.state.activeModelCar.toLowerCase()];
+      // Get the list object
+      const listObject = this.state.listAttr;
+      // Update the object
+      if (elementType === "car") {
+        // Update the car object
+        listObject[elementType]["name"] = nameElement;
+        listObject[elementType]["price"] = price;
+        // Update the color object
+        let currentColor = currentCar["defaultColor"];
+        listObject["color"]["name"] = currentColor;
+        listObject["color"]["code"] =
+          currentCar["colors"][currentColor]["colorCode"];
+        listObject["color"]["price"] =
+          currentCar["colors"][currentColor]["colorPrice"];
+      } else if (elementType === "color") {
+        // Update the color object
+        listObject[elementType]["name"] = nameElement;
+        listObject[elementType]["price"] =
+          currentCar["colors"][nameElement]["colorPrice"];
+        listObject[elementType]["code"] =
+          currentCar["colors"][nameElement]["colorCode"];
       } else if (elementType === "accessories") {
-        // Get the accessories
-        let objAccessories = globalObject["accessories"];
-        // Check if the number is negative (wich means that the user remove the accessories from his configuration)
-        if (Math.sign(price) === -1) {
-          // Remove the propertie
-          delete objAccessories[nameElement];
+        // Check if the user decide to uncheck the accessorie
+        if (price === "remove") {
+          // Remove the accessorie from object
+          delete listObject[elementType][nameElement];
         } else {
-          // Add the attr to the price list
-          globalObject["accessories"][nameElement] = price;
+          let newAccessorie = {};
+          // Create a new accessorie object
+          newAccessorie[nameElement] = price;
+          //  Update the accessorie object
+          listObject[elementType][nameElement] = newAccessorie;
         }
       }
 
-      // Calculate the total price
-      for (let key in globalObject) {
-        if (globalObject.hasOwnProperty(key)) {
-          // Check if the loop hits the accessories object
-          if (key === "accessories") {
-            // Get the object
-            let accessoriesObj = globalObject[key];
-            // Loop through the object
-            for (let prop in accessoriesObj) {
-              if (accessoriesObj.hasOwnProperty(prop)) {
-                // Get the price and convert it to a number type
-                price = Number(accessoriesObj[prop]);
-                // Sum the price
-                totalPartialPrice = Number(totalPartialPrice + price);
-              }
-            }
-          } else {
-            // Get the price and convert it to a number type
-            price = Number(globalObject[key]);
-            // Sum the price
-            totalPartialPrice = Number(totalPartialPrice + price);
-          }
-        }
-      }
-
-      // Update the state
+      // Return the object
       return {
-        listAttr: globalObject,
-        totalPrice: totalPartialPrice
+        listAttr: listObject
       };
     };
     // Method that change the car selected
@@ -336,8 +340,8 @@ class App extends Component {
           }
         }
 
-        // Update the price
-        let objPrice = this.updateTotalPrice("main-attr", "car", basicPrice);
+        // Update the car elements
+        let objPrice = this.updateCarElements("car", elementModel, basicPrice);
 
         // Update the state
         this.setState({
@@ -346,7 +350,6 @@ class App extends Component {
           carSelected: checkCarSelected,
           activeModelCar: elementModel,
           showPopup: false,
-          totalPrice: objPrice.totalPrice,
           listAttr: objPrice.listAttr
         });
       });
@@ -389,14 +392,14 @@ class App extends Component {
         }
       }
 
-      // Update the total price
-      let objPrice = this.updateTotalPrice("main-attr", "color", colorPrice);
+      // Update the car elements
+      let objPrice = this.updateCarElements("color", colorName, colorPrice);
+
       // Update the state with the new color state
       this.setState({
         carModelItems: carObject,
         activeCar: colorImgName,
-        listAttr: objPrice.listAttr,
-        totalPrice: objPrice.totalPrice
+        listAttr: objPrice.listAttr
       });
     };
     // Method that implement car accessories
@@ -409,8 +412,6 @@ class App extends Component {
       let price = thisAccessorie.getAttribute("data-price");
       // Get the car object
       const carObject = this.state.carModelItems;
-      // Declare the global object update price
-      let objPrice = null;
       // Loop through the object
       for (let key in carObject) {
         if (carObject.hasOwnProperty(key)) {
@@ -423,30 +424,19 @@ class App extends Component {
               element["accessories"][thisAccessorieName]["active"] === false
                 ? true
                 : false;
-            // Check if the user add or not the accessorie
-            if (element["accessories"][thisAccessorieName]["active"] === true) {
-              // Update the price
-              objPrice = this.updateTotalPrice(
-                "accessories",
-                thisAccessorieName,
-                price
-              );
-            } else {
-              // Update the price to negative
-              price = -Math.abs(price);
-              // Update the price
-              objPrice = this.updateTotalPrice(
-                "accessories",
-                thisAccessorieName,
-                price
-              );
-            }
 
-            // Update the state
+            // Update the car elements
+            let objPrice = this.updateCarElements(
+              "accessories",
+              thisAccessorieName,
+              element["accessories"][thisAccessorieName]["active"] === true
+                ? price
+                : "remove"
+            );
+
             this.setState({
               carModelItems: carObject,
-              listAttr: objPrice.listAttr,
-              totalPrice: objPrice.totalPrice
+              listAttr: objPrice.listAttr
             });
           }
         }
@@ -478,6 +468,10 @@ class App extends Component {
               if (carColors.hasOwnProperty(key)) {
                 let element = carColors[key];
                 element["activeColor"] = false;
+                // Set default color to true
+                if (element["colorName"] === car["defaultColor"]) {
+                  element["activeColor"] = true;
+                }
               }
             }
           }
@@ -488,12 +482,24 @@ class App extends Component {
           {
             carModelItems: mainObject,
             listAttr: {
-              car: 0,
-              color: "",
+              car: {
+                model: "",
+                price: 0
+              },
+              color: {
+                name: "",
+                code: "",
+                price: 0
+              },
               accessories: {}
             },
+            totalPrice: {
+              car: 0,
+              color: 0,
+              accessories: 0,
+              total: 0
+            },
             carSelected: false,
-            totalPrice: 0,
             showPopup: false
           },
           ok
@@ -527,7 +533,7 @@ class App extends Component {
         <FooterComponent
           activeCar={this.state.activeCar}
           carSelected={this.state.carSelected}
-          totalPrice={this.state.totalPrice}
+          totalPrice={this.state.totalPrice.total}
           prevPage={this.state.appNavigation.prevPage}
           nextPage={this.state.appNavigation.nextPage}
           changePage={this.changePage}

@@ -534,7 +534,7 @@ a[data-active="true"] {
 }
 
 /* Media queries */
-@media all and (max-width: 1500px) {
+@media all and (max-width: 1400px) {
   /* Header */
   .header {
     height: 150px;
