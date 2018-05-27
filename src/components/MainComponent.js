@@ -67,7 +67,10 @@ class MainComponent extends Component {
                   data-page="SUMMARY"
                   data-direction={this.props.menuItems[index].position}
                 >
-                  <SummaryComponent />
+                  <SummaryComponent
+                    listAttr={this.props.listAttr}
+                    activeCar={this.props.activeCar}
+                  />
                 </li>
               );
             }

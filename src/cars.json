@@ -2,18 +2,19 @@
   "cars": {
     "bmwi8": {
       "model": "BMWi8",
-      "activeCar": "bmwi8--grey",
-      "defaultColor": "grey",
+      "model2": "BMW i8",
+      "activeCar": "bmwi8--Grey Metallic",
+      "defaultColor": "Grey Metallic",
       "colors": {
-        "grey": {
-          "colorName": "grey",
+        "Grey Metallic": {
+          "colorName": "Grey Metallic",
           "colorCode": "#303539",
           "colorPrice": "0",
           "colorOrder": 0,
           "activeColor": true
         },
-        "perl": {
-          "colorName": "perl",
+        "White Perl Metallic": {
+          "colorName": "White Perl Metallic",
           "colorCode": "#d1d1d1",
           "colorPrice": "1800",
           "colorOrder": 1,
@@ -43,30 +44,33 @@
         }
       },
       "initialPrice": "140700",
-      "thumbnail": "bmwi8--grey",
-      "selected": false
+      "thumbnail": "bmwi8--Grey Metallic",
+      "selected": false,
+      "description":
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
     },
     "bmwi3": {
       "model": "BMWi3",
-      "activeCar": "bmwi3--white",
-      "defaultColor": "white",
+      "model2": "BMW i3",
+      "activeCar": "bmwi3--White",
+      "defaultColor": "White",
       "colors": {
-        "white": {
-          "colorName": "white",
+        "White": {
+          "colorName": "White",
           "colorCode": "#fff",
           "colorPrice": "0",
           "colorOrder": 0,
           "activeColor": true
         },
-        "grey": {
-          "colorName": "grey",
+        "Mineral Grey": {
+          "colorName": "Mineral Grey",
           "colorCode": "#303539",
           "colorPrice": "550",
           "colorOrder": 1,
           "activeColor": false
         },
-        "orange metallic": {
-          "colorName": "orange metallic",
+        "Orange Metallic": {
+          "colorName": "Orange Metallic",
           "colorCode": "#cf5a16",
           "colorPrice": "550",
           "colorOrder": 2,
@@ -91,8 +95,10 @@
         }
       },
       "initialPrice": "42000",
-      "thumbnail": "bmwi3--white",
-      "selected": false
+      "thumbnail": "bmwi3--White",
+      "selected": false,
+      "description":
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
     }
   }
 }

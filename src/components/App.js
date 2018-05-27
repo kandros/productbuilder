@@ -5,6 +5,7 @@ import HeaderComponent from "./HeaderComponent.js";
 import MainComponent from "./MainComponent.js";
 import FooterComponent from "./FooterComponent.js";
 import PopupComponent from "./PopupComponent.js";
+import PopupPoveraccio from "./PopupPoveraccio.js";
 // Import firebase
 import firebase from "firebase";
 import config from "./firebase.js";
@@ -16,13 +17,16 @@ class App extends Component {
     super(props);
     this.state = {
       carSelected: false,
-      activeCar: "bmwi8--grey",
+      activeCar: "bmwi8--Grey Metallic",
       activeModelCar: "BMWI8",
       showPopup: false,
+      popupPoveraccio: false,
+      showPoveraccio: false,
       listAttr: {
         car: {
           model: "",
-          price: 0
+          price: 0,
+          description: ""
         },
         color: {
           name: "",
@@ -104,7 +108,7 @@ class App extends Component {
               data-selected={element.selected}
             >
               <div className="car__header">
-                <h2>{element.model}</h2>
+                <h2>{element.model2}</h2>
               </div>
               <div className="car__body">
                 <div className="car__footer-price">
@@ -265,6 +269,8 @@ class App extends Component {
       if (elementType === "car") {
         // Update the car object
         listObject[elementType]["name"] = nameElement;
+        listObject[elementType]["model"] = currentCar["model2"];
+        listObject[elementType]["description"] = currentCar["description"];
         listObject[elementType]["price"] = price;
         // Update the color object
         let currentColor = currentCar["defaultColor"];
@@ -389,13 +395,16 @@ class App extends Component {
         // Update the car elements
         let objPrice = this.updateCarElements("car", elementModel, basicPrice);
         // Update the state
+        console.log(elementModel);
         this.setState({
           carModelItems: arrayCarElements,
           activeCar: dataActiveCar,
           carSelected: checkCarSelected,
           activeModelCar: elementModel,
           showPopup: false,
-          listAttr: objPrice.listAttr
+          listAttr: objPrice.listAttr,
+          popupPoveraccio: elementModel === "BMWi3" ? true : false,
+          showPoveraccio: elementModel === "BMWi3" ? true : false
         });
       });
     };
@@ -552,6 +561,12 @@ class App extends Component {
         );
       });
     };
+    // Method that closes the poveraccio modal
+    this.closePoveraccio = () => {
+      this.setState({
+        showPoveraccio: false
+      });
+    };
   }
 
   render() {
@@ -575,6 +590,7 @@ class App extends Component {
           carSelected={this.state.carSelected}
           selectColor={this.selectColor}
           selectAccessories={this.selectAccessories}
+          listAttr={this.state.listAttr}
         />
         <FooterComponent
           activeCar={this.state.activeCar}
@@ -586,7 +602,18 @@ class App extends Component {
           isMainPage={this.state.isMainPage}
           menuItems={this.state.menuItems}
         />
-        <PopupComponent showPopup={this.state.showPopup} />
+        <PopupComponent
+          showPopup={this.state.showPopup}
+          activeCar={this.props.activeCar}
+        />
+        {this.state.popupPoveraccio ? (
+          <PopupPoveraccio
+            showPoveraccio={this.state.showPoveraccio}
+            closePoveraccio={this.closePoveraccio}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

@@ -21,8 +21,7 @@ const createColorElements = (obj, activeModelCar, carSelected, eventClick) => {
             let color = objColors[colorKey];
             // Push the list into the array
             listArray.push(
-              <li
-                key={color.colorCode}
+              <li key={color.colorCode}
                 className="car__colors"
                 data-color={color.colorName}
                 data-price={color.colorPrice}
@@ -32,8 +31,9 @@ const createColorElements = (obj, activeModelCar, carSelected, eventClick) => {
                 style={{
                   backgroundColor: color.colorCode,
                   order: color.colorOrder
-                }}
-              />
+                }}>
+                <span className="color--tolltip">{color.colorName + " - $" + color.colorPrice}</span>
+              </li>
             );
           }
         }
