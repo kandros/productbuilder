@@ -208,14 +208,6 @@
   margin: 0 0.7rem;
 }
 
-[data-color="grey"] {
-  background-color: #303539;
-}
-
-[data-color="perl"] {
-  background-color: #d1d1d1;
-}
-
 /* Page accessories */
 .accessories--list {
   border: 2px solid #eee;

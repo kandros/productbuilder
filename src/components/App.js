@@ -17,6 +17,7 @@ class App extends Component {
     this.state = {
       carSelected: false,
       activeCar: "bmwi8--grey",
+      activeModelCar: "BMWI8",
       showPopup: false,
       totalPrice: 0,
       menuItems: [
@@ -276,6 +277,7 @@ class App extends Component {
         activeCar: dataActiveCar,
         carSelected: checkCarSelected,
         totalPrice: checkCarSelected ? basicPrice : 0,
+        activeModelCar: elementModel,
         showPopup: false
       });
     };
@@ -297,6 +299,9 @@ class App extends Component {
           activeCar={this.state.activeCar}
           menuItems={this.state.menuItems}
           appNavigation={this.state.appNavigation}
+          carModelItems={this.state.carModelItems}
+          activeModelCar={this.state.activeModelCar}
+          carSelected={this.state.carSelected}
         />
         <FooterComponent
           activeCar={this.state.activeCar}

@@ -6,11 +6,15 @@
       "colors": {
         "grey": {
           "colorName": "grey",
-          "colorCode": "#303539"
+          "colorCode": "#303539",
+          "colorPrice": "0",
+          "colorOrder": 0
         },
         "perl": {
           "colorName": "perl",
-          "colorCode": "#d1d1d1"
+          "colorCode": "#d1d1d1",
+          "colorPrice": "1.800",
+          "colorOrder": 1
         }
       },
       "accessories": {
@@ -41,15 +45,21 @@
       "colors": {
         "white": {
           "colorName": "white",
-          "colorCode": "#fff"
+          "colorCode": "#fff",
+          "colorPrice": "0",
+          "colorOrder": 0
         },
         "grey": {
           "colorName": "grey",
-          "colorCode": "#303539"
+          "colorCode": "#303539",
+          "colorPrice": "550",
+          "colorOrder": 1
         },
         "orange metallic": {
           "colorName": "orange metallic",
-          "colorCode": "#ffb500"
+          "colorCode": "#cf5a16",
+          "colorPrice": "550",
+          "colorOrder": 2
         }
       },
       "accessories": {

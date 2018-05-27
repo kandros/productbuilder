@@ -32,7 +32,12 @@ class MainComponent extends Component {
                   data-page="COLORS"
                   data-direction={this.props.menuItems[index].position}
                 >
-                  <PageColorsComponent activeCar={this.props.activeCar} />
+                  <PageColorsComponent
+                    activeCar={this.props.activeCar}
+                    carModelItems={this.props.carModelItems}
+                    activeModelCar={this.props.activeModelCar}
+                    carSelected={this.props.carSelected}
+                  />
                 </li>
               );
             } else if (el.name === "ACCESSORIES") {
