@@ -200,6 +200,7 @@
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -212,7 +213,6 @@
 .color--tolltip {
   position: absolute;
   font-size: 0.9rem;
-  bottom: 10rem;
   transform: translateY(-25%);
   background-color: #ececec;
   display: block;
@@ -223,6 +223,8 @@
   align-items: center;
   will-change: transform;
   opacity: 0;
+  top: -60px;
+  white-space: nowrap;
   visibility: hidden;
   transition: all 0.2s ease;
 }
@@ -799,15 +801,23 @@ a[data-active="true"] {
   .car__color-img {
     padding: 10rem;
     padding-top: 5rem;
-    padding-bottom: 3rem;
-  }
-
-  .color--tolltip {
-    bottom: 22rem;
+    padding-bottom: 0;
   }
 
   .popup--poveraccio {
     width: 500px;
     height: 90%;
+  }
+
+  .summary__body {
+    margin: 2rem 0;
+  }
+
+  .summary__img {
+    margin: 1rem 0;
+  }
+
+  .summary__img img {
+    width: 600px;
   }
 }

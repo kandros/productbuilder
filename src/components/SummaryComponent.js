@@ -4,7 +4,7 @@ const accessoriesLiest = accList => {
   // Define return array
   const arr = [];
   // Check if the obj is empty
-  if (accList.length === undefined) {
+  if (Object.keys(accList).length === 0) {
     arr.push(
       <li key="no-element" className="accessories__list">
         No Accessories selected;
