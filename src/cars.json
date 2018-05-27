@@ -1,0 +1,74 @@
+{
+  "cars": {
+    "bmwi8": {
+      "model": "BMWi8",
+      "activeCar": "bmwi8--grey",
+      "colors": {
+        "grey": {
+          "colorName": "grey",
+          "colorCode": "#303539"
+        },
+        "perl": {
+          "colorName": "perl",
+          "colorCode": "#d1d1d1"
+        }
+      },
+      "accessories": {
+        "BMW Laserlight": {
+          "accName": "BMW Laserlight",
+          "accPrice": "6.300"
+        },
+        "BMW Charging Station": {
+          "accName": "BMW Charging Station",
+          "accPrice": "1.080"
+        },
+        "BMW Maintenance Program Upgrade": {
+          "accName": "BMW Maintenance Program Upgrade",
+          "accPrice": "1.895"
+        },
+        "1 Year BMW Maintenance Program Upgrade": {
+          "accName": "1 Year BMW Maintenance Program Upgrade",
+          "accPrice": "975"
+        }
+      },
+      "initialPrice": "140.700",
+      "thumbnail": "bmwi8--grey",
+      "selected": false
+    },
+    "bmwi3": {
+      "model": "BMWi3",
+      "activeCar": "bmwi3--white",
+      "colors": {
+        "white": {
+          "colorName": "white",
+          "colorCode": "#fff"
+        },
+        "grey": {
+          "colorName": "grey",
+          "colorCode": "#303539"
+        },
+        "orange metallic": {
+          "colorName": "orange metallic",
+          "colorCode": "#ffb500"
+        }
+      },
+      "accessories": {
+        "BMW Charging Station": {
+          "accName": "BMW Charging Station",
+          "accPrice": "1.080"
+        },
+        "BMW Maintenance Program Upgrade": {
+          "accName": "BMW Maintenance Program Upgrade",
+          "accPrice": "1.895"
+        },
+        "1 Year BMW Maintenance Program Upgrade": {
+          "accName": "1 Year BMW Maintenance Program Upgrade",
+          "accPrice": "975"
+        }
+      },
+      "initialPrice": "42.000",
+      "thumbnail": "bmwi3--white",
+      "selected": false
+    }
+  }
+}
