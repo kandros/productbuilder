@@ -49,7 +49,13 @@ class MainComponent extends Component {
                   data-page="ACCESSORIES"
                   data-direction={this.props.menuItems[index].position}
                 >
-                  <PageAccessoriesComponent />
+                  <PageAccessoriesComponent
+                    selectAccessories={this.props.selectAccessories}
+                    activeCar={this.props.activeCar}
+                    carModelItems={this.props.carModelItems}
+                    activeModelCar={this.props.activeModelCar}
+                    carSelected={this.props.carSelected}
+                  />
                 </li>
               );
             }

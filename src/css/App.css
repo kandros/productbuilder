@@ -88,13 +88,13 @@
   position: absolute;
   transition: all 0.9s ease;
   will-change: transform, opacity;
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .page__container {
   width: 1200px;
   margin: 0 auto;
-  overflow: hidden;
-  overflow-y: auto;
 }
 
 .ul__page {
@@ -150,7 +150,8 @@
   margin-bottom: 0.5rem;
 }
 
-.car__footer-check {
+.car__footer-check,
+.accessories--list-check {
   width: 50px;
   height: 50px;
   border: none;
@@ -164,7 +165,8 @@
   transition: all 0.4s cubic-bezier(0.13, 1.49, 0.77, 1.2);
 }
 
-.car__footer-check img {
+.car__footer-check img,
+.accessories--list-check img {
   width: 20px;
   height: auto;
   background-color: transparent;
@@ -212,12 +214,13 @@
 .accessories--list {
   border: 2px solid #eee;
   border-radius: 4px;
-  padding: 2.5rem 2rem;
+  padding: 2rem;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   font-weight: bold;
   cursor: pointer;
+  transition: border-color 0.3s ease;
 }
 
 .accessories--list:first-child {
@@ -234,12 +237,7 @@
 }
 
 .accessories--list-check {
-  width: 30px;
-  height: 30px;
-  border: 2px solid #eee;
-  background-color: #fff;
-  border-radius: 3px;
-  transition: all 0.3s ease;
+  border-radius: 8px !important;
 }
 
 /* Footer */
@@ -444,7 +442,7 @@
   color: var(--textColor);
 }
 
-[data-active="true"] {
+a[data-active="true"] {
   color: var(--mainColor);
   border-color: var(--mainColor);
   pointer-events: none;
@@ -454,19 +452,23 @@
   border-color: var(--mainColor);
 }
 
-[data-selected="true"] .car__footer-check {
+[data-selected="true"] .car__footer-check,
+.accessories--list[data-active="true"] .accessories--list-check {
   background-color: var(--mainColor);
   transform: scale(1);
   border-color: #fff;
 }
 
-[data-selected="true"] .car__footer-check img {
+[data-selected="true"] .car__footer-check img,
+.accessories--list[data-active="true"] .accessories--list-check img {
   opacity: 1;
   transform: scale(1);
 }
 
 [data-selected="false"] .car__footer-check,
-[data-selected="false"] .car__footer-check img {
+[data-selected="false"] .car__footer-check img,
+.accessories--list[data-active="false"] .accessories--list-check,
+.accessories--list[data-active="false"] .accessories--list-check img {
   transition: 0.4s ease !important;
 }
 
@@ -522,8 +524,13 @@
   transform: translateY(150%);
 }
 
-[data-activecolor="true"]{
+[data-activecolor="true"] {
   box-shadow: 0 0 0 2px var(--mainColor);
+  pointer-events: none;
+}
+
+.accessories--list[data-active="true"] {
+  border-color: var(--mainColor);
 }
 
 /* Media queries */

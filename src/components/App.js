@@ -19,7 +19,11 @@ class App extends Component {
       activeCar: "bmwi8--grey",
       activeModelCar: "BMWI8",
       showPopup: false,
-      listAttr: {},
+      listAttr: {
+        car: "",
+        color: 0,
+        accessories: {}
+      },
       totalPrice: 0,
       menuItems: [
         {
@@ -66,7 +70,8 @@ class App extends Component {
     this.db = this.datab.once("value").then(doc => {
       // Update the state
       this.setState({
-        carModelItems: doc.val()
+        carModelItems: doc.val(),
+        orgCarObject: doc.val()
       });
     });
     // Method that creates the car list from data
@@ -239,119 +244,261 @@ class App extends Component {
       // Get the global object
       const globalObject = this.state.listAttr;
       // Declare variable total price
-      let totalPrice = 0;
+      let totalPartialPrice = 0;
       // Check if the user is adding a main element or a sub-element
       if (elementType === "main-attr") {
         // Add the attr to the price list
         globalObject[nameElement] = price;
-      } else {
+      } else if (elementType === "accessories") {
+        // Get the accessories
+        let objAccessories = globalObject["accessories"];
+        // Check if the number is negative (wich means that the user remove the accessories from his configuration)
+        if (Math.sign(price) === -1) {
+          // Remove the propertie
+          delete objAccessories[nameElement];
+        } else {
+          // Add the attr to the price list
+          globalObject["accessories"][nameElement] = price;
+        }
       }
 
       // Calculate the total price
       for (let key in globalObject) {
         if (globalObject.hasOwnProperty(key)) {
-          // Get the price and convert it to a number type
-          let price = Number(globalObject[key]);
-          // Sum the price
-          totalPrice = Number(totalPrice + price);
+          // Check if the loop hits the accessories object
+          if (key === "accessories") {
+            // Get the object
+            let accessoriesObj = globalObject[key];
+            // Loop through the object
+            for (let prop in accessoriesObj) {
+              if (accessoriesObj.hasOwnProperty(prop)) {
+                // Get the price and convert it to a number type
+                price = Number(accessoriesObj[prop]);
+                // Sum the price
+                totalPartialPrice = Number(totalPartialPrice + price);
+              }
+            }
+          } else {
+            // Get the price and convert it to a number type
+            price = Number(globalObject[key]);
+            // Sum the price
+            totalPartialPrice = Number(totalPartialPrice + price);
+          }
         }
       }
 
       // Update the state
-      this.setState({
+      return {
         listAttr: globalObject,
-        totalPrice: totalPrice
-      });
+        totalPrice: totalPartialPrice
+      };
     };
     // Method that change the car selected
     this.changeCarSelected = e => {
       // Get the car list element
       const carElement = e.currentTarget;
-      // Get the element model
-      const elementModel = carElement.getAttribute("data-model");
-      // Get the data active car
-      const dataActiveCar = carElement.getAttribute("data-activecar");
-      // Get the data selected
-      const dataSelected = carElement.getAttribute("data-selected");
-      // Get the basic price of the car
-      const basicPrice = carElement.getAttribute("data-price");
-      // Update the total price
-      this.updateTotalPrice("main-attr", "car", basicPrice);
+      // Reset eventual car selected
+      this.resetMainObject().then(() => {
+        // Get the element model
+        const elementModel = carElement.getAttribute("data-model");
+        // Get the data active car
+        const dataActiveCar = carElement.getAttribute("data-activecar");
+        // Get the data selected
+        const dataSelected = carElement.getAttribute("data-selected");
+        // Get the basic price of the car
+        let basicPrice = carElement.getAttribute("data-price");
 
-      // Get the array of car elements
-      const arrayCarElements = this.state.carModelItems;
-      // Flag checked car variable
-      let checkCarSelected = false;
-      // Loop through the object
-      for (let key in arrayCarElements) {
-        if (arrayCarElements.hasOwnProperty(key)) {
-          // Get the element
-          let element = arrayCarElements[key];
-          // Change the state of the element
-          element["selected"] = false;
-          // Change the selected element
-          if (element["model"] === elementModel) {
-            // Check if this elements was selected
-            if (dataSelected === "true") {
-              element["selected"] = false;
-              checkCarSelected = false;
-            } else {
-              element["selected"] = true;
-              checkCarSelected = true;
+        // Get the array of car elements
+        const arrayCarElements = this.state.carModelItems;
+        // Flag checked car variable
+        let checkCarSelected = false;
+        // Loop through the object
+        for (let key in arrayCarElements) {
+          if (arrayCarElements.hasOwnProperty(key)) {
+            // Get the element
+            let element = arrayCarElements[key];
+            // Change the state of the element
+            element["selected"] = false;
+            // Change the selected element
+            if (element["model"] === elementModel) {
+              // Check if this elements was selected
+              if (dataSelected === "true") {
+                element["selected"] = false;
+                checkCarSelected = false;
+                // Reset eventual car selected
+                this.resetMainObject();
+                return false;
+              } else {
+                element["selected"] = true;
+                checkCarSelected = true;
+              }
             }
           }
         }
-      }
-      // Update the state
-      this.setState({
-        carModelItems: arrayCarElements,
-        activeCar: dataActiveCar,
-        carSelected: checkCarSelected,
-        activeModelCar: elementModel,
-        showPopup: false
+
+        // Update the price
+        let objPrice = this.updateTotalPrice("main-attr", "car", basicPrice);
+
+        // Update the state
+        this.setState({
+          carModelItems: arrayCarElements,
+          activeCar: dataActiveCar,
+          carSelected: checkCarSelected,
+          activeModelCar: elementModel,
+          showPopup: false,
+          totalPrice: objPrice.totalPrice,
+          listAttr: objPrice.listAttr
+        });
       });
     };
     // Method that update the color select and the total price
     this.selectColor = e => {
       // Get the color selected
       const thisColor = e.currentTarget;
-      // Get the color name 
-      const colorName = thisColor.getAttribute('data-color')
+      // Get the color name
+      const colorName = thisColor.getAttribute("data-color");
+      // Get the color img name
+      const colorImgName = thisColor.getAttribute("data-imgsrc");
       // Get the price
       const colorPrice = thisColor.getAttribute("data-price");
       // Get the car object
-      const carObject = this.state.carModelItems
-      // Loop through the object 
+      const carObject = this.state.carModelItems;
+      // Loop through the object
       for (let key in carObject) {
         if (carObject.hasOwnProperty(key)) {
-          // Get the element 
-          let element = carObject[key]
-          // Check for the current car selected 
-          if(element.model === this.state.activeModelCar){
-            // Get the colors 
-            const colorsObj = element.colors 
-            // Loop through the colors 
-            for(let colorProp in colorsObj){
-              if(colorsObj.hasOwnProperty(colorProp)){
-                // Get the color 
-                let thisColor = colorsObj[colorProp]
-                // Set the color to false 
-                thisColor.activeColor = false
-                // Set the new color to true 
-                if(thisColor.colorName === colorName){
-                  thisColor.activeColor = true
+          // Get the element
+          let element = carObject[key];
+          // Check for the current car selected
+          if (element.model === this.state.activeModelCar) {
+            // Get the colors
+            const colorsObj = element.colors;
+            // Loop through the colors
+            for (let colorProp in colorsObj) {
+              if (colorsObj.hasOwnProperty(colorProp)) {
+                // Get the color
+                let thisColor = colorsObj[colorProp];
+                // Set the color to false
+                thisColor.activeColor = false;
+                // Set the new color to true
+                if (thisColor.colorName === colorName) {
+                  thisColor.activeColor = true;
                 }
               }
             }
           }
         }
       }
-      // Update the state with the new color state 
-      this.setState({
-        carModelItems: carObject
-      })
+
       // Update the total price
-      this.updateTotalPrice("main-attr", "color", colorPrice);
+      let objPrice = this.updateTotalPrice("main-attr", "color", colorPrice);
+      // Update the state with the new color state
+      this.setState({
+        carModelItems: carObject,
+        activeCar: colorImgName,
+        listAttr: objPrice.listAttr,
+        totalPrice: objPrice.totalPrice
+      });
+    };
+    // Method that implement car accessories
+    this.selectAccessories = e => {
+      // Get the accessorie
+      const thisAccessorie = e.currentTarget;
+      // Get the name
+      const thisAccessorieName = thisAccessorie.getAttribute("data-name");
+      // Get the price
+      let price = thisAccessorie.getAttribute("data-price");
+      // Get the car object
+      const carObject = this.state.carModelItems;
+      // Declare the global object update price
+      let objPrice = null;
+      // Loop through the object
+      for (let key in carObject) {
+        if (carObject.hasOwnProperty(key)) {
+          // Get the element
+          let element = carObject[key];
+          // Get the current car selected
+          if (element.model === this.state.activeModelCar) {
+            // Active the accessorie
+            element["accessories"][thisAccessorieName]["active"] =
+              element["accessories"][thisAccessorieName]["active"] === false
+                ? true
+                : false;
+            // Check if the user add or not the accessorie
+            if (element["accessories"][thisAccessorieName]["active"] === true) {
+              // Update the price
+              objPrice = this.updateTotalPrice(
+                "accessories",
+                thisAccessorieName,
+                price
+              );
+            } else {
+              // Update the price to negative
+              price = -Math.abs(price);
+              // Update the price
+              objPrice = this.updateTotalPrice(
+                "accessories",
+                thisAccessorieName,
+                price
+              );
+            }
+
+            // Update the state
+            this.setState({
+              carModelItems: carObject,
+              listAttr: objPrice.listAttr,
+              totalPrice: objPrice.totalPrice
+            });
+          }
+        }
+      }
+    };
+    // Method that reset the main car object
+    this.resetMainObject = () => {
+      return new Promise(ok => {
+        // Get the object
+        const mainObject = this.state.carModelItems;
+        // Loop through the object
+        for (let key in mainObject) {
+          if (mainObject.hasOwnProperty(key)) {
+            let car = mainObject[key];
+            // Get the car properties
+            let carAccessories = car["accessories"];
+            let carColors = car["colors"];
+
+            // Loop through the car properties
+            for (let key in carAccessories) {
+              if (carAccessories.hasOwnProperty(key)) {
+                let element = carAccessories[key];
+                element["active"] = false;
+              }
+            }
+
+            // Loop through the car properties
+            for (let key in carColors) {
+              if (carColors.hasOwnProperty(key)) {
+                let element = carColors[key];
+                element["activeColor"] = false;
+              }
+            }
+          }
+        }
+        //
+        // Update the state
+        this.setState(
+          {
+            carModelItems: mainObject,
+            listAttr: {
+              car: 0,
+              color: "",
+              accessories: {}
+            },
+            carSelected: false,
+            totalPrice: 0,
+            showPopup: false
+          },
+          ok
+        );
+      });
     };
   }
 
@@ -375,6 +522,7 @@ class App extends Component {
           activeModelCar={this.state.activeModelCar}
           carSelected={this.state.carSelected}
           selectColor={this.selectColor}
+          selectAccessories={this.selectAccessories}
         />
         <FooterComponent
           activeCar={this.state.activeCar}

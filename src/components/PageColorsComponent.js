@@ -28,6 +28,7 @@ const createColorElements = (obj, activeModelCar, carSelected, eventClick) => {
                 data-price={color.colorPrice}
                 onClick={eventClick}
                 data-activecolor={color.activeColor}
+                data-imgsrc={activeModelCar.toLowerCase() + "--" + color.colorName}
                 style={{
                   backgroundColor: color.colorCode,
                   order: color.colorOrder
