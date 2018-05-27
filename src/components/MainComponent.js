@@ -37,6 +37,7 @@ class MainComponent extends Component {
                     carModelItems={this.props.carModelItems}
                     activeModelCar={this.props.activeModelCar}
                     carSelected={this.props.carSelected}
+                    selectColor={this.props.selectColor}
                   />
                 </li>
               );

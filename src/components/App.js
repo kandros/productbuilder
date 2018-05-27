@@ -19,6 +19,7 @@ class App extends Component {
       activeCar: "bmwi8--grey",
       activeModelCar: "BMWI8",
       showPopup: false,
+      listAttr: {},
       totalPrice: 0,
       menuItems: [
         {
@@ -233,6 +234,35 @@ class App extends Component {
         isMainPage: newActivePage !== this.state.mainPage ? false : true
       });
     };
+    // Method that update the car price
+    this.updateTotalPrice = (elementType, nameElement, price) => {
+      // Get the global object
+      const globalObject = this.state.listAttr;
+      // Declare variable total price
+      let totalPrice = 0;
+      // Check if the user is adding a main element or a sub-element
+      if (elementType === "main-attr") {
+        // Add the attr to the price list
+        globalObject[nameElement] = price;
+      } else {
+      }
+
+      // Calculate the total price
+      for (let key in globalObject) {
+        if (globalObject.hasOwnProperty(key)) {
+          // Get the price and convert it to a number type
+          let price = Number(globalObject[key]);
+          // Sum the price
+          totalPrice = Number(totalPrice + price);
+        }
+      }
+
+      // Update the state
+      this.setState({
+        listAttr: globalObject,
+        totalPrice: totalPrice
+      });
+    };
     // Method that change the car selected
     this.changeCarSelected = e => {
       // Get the car list element
@@ -244,9 +274,10 @@ class App extends Component {
       // Get the data selected
       const dataSelected = carElement.getAttribute("data-selected");
       // Get the basic price of the car
-      const basicPrice = Number(carElement.getAttribute("data-price")).toFixed(
-        3
-      );
+      const basicPrice = carElement.getAttribute("data-price");
+      // Update the total price
+      this.updateTotalPrice("main-attr", "car", basicPrice);
+
       // Get the array of car elements
       const arrayCarElements = this.state.carModelItems;
       // Flag checked car variable
@@ -276,10 +307,51 @@ class App extends Component {
         carModelItems: arrayCarElements,
         activeCar: dataActiveCar,
         carSelected: checkCarSelected,
-        totalPrice: checkCarSelected ? basicPrice : 0,
         activeModelCar: elementModel,
         showPopup: false
       });
+    };
+    // Method that update the color select and the total price
+    this.selectColor = e => {
+      // Get the color selected
+      const thisColor = e.currentTarget;
+      // Get the color name 
+      const colorName = thisColor.getAttribute('data-color')
+      // Get the price
+      const colorPrice = thisColor.getAttribute("data-price");
+      // Get the car object
+      const carObject = this.state.carModelItems
+      // Loop through the object 
+      for (let key in carObject) {
+        if (carObject.hasOwnProperty(key)) {
+          // Get the element 
+          let element = carObject[key]
+          // Check for the current car selected 
+          if(element.model === this.state.activeModelCar){
+            // Get the colors 
+            const colorsObj = element.colors 
+            // Loop through the colors 
+            for(let colorProp in colorsObj){
+              if(colorsObj.hasOwnProperty(colorProp)){
+                // Get the color 
+                let thisColor = colorsObj[colorProp]
+                // Set the color to false 
+                thisColor.activeColor = false
+                // Set the new color to true 
+                if(thisColor.colorName === colorName){
+                  thisColor.activeColor = true
+                }
+              }
+            }
+          }
+        }
+      }
+      // Update the state with the new color state 
+      this.setState({
+        carModelItems: carObject
+      })
+      // Update the total price
+      this.updateTotalPrice("main-attr", "color", colorPrice);
     };
   }
 
@@ -302,6 +374,7 @@ class App extends Component {
           carModelItems={this.state.carModelItems}
           activeModelCar={this.state.activeModelCar}
           carSelected={this.state.carSelected}
+          selectColor={this.selectColor}
         />
         <FooterComponent
           activeCar={this.state.activeCar}

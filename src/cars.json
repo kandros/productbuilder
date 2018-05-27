@@ -8,34 +8,40 @@
           "colorName": "grey",
           "colorCode": "#303539",
           "colorPrice": "0",
-          "colorOrder": 0
+          "colorOrder": 0,
+          "activeColor": true
         },
         "perl": {
           "colorName": "perl",
           "colorCode": "#d1d1d1",
-          "colorPrice": "1.800",
-          "colorOrder": 1
+          "colorPrice": "1800",
+          "colorOrder": 1,
+          "activeColor": false
         }
       },
       "accessories": {
         "BMW Laserlight": {
           "accName": "BMW Laserlight",
-          "accPrice": "6.300"
+          "accPrice": "6300",
+          "active": false
         },
         "BMW Charging Station": {
           "accName": "BMW Charging Station",
-          "accPrice": "1.080"
+          "accPrice": "1080",
+          "active": false
         },
         "BMW Maintenance Program Upgrade": {
           "accName": "BMW Maintenance Program Upgrade",
-          "accPrice": "1.895"
+          "accPrice": "1895",
+          "active": false
         },
         "1 Year BMW Maintenance Program Upgrade": {
           "accName": "1 Year BMW Maintenance Program Upgrade",
-          "accPrice": "975"
+          "accPrice": "975",
+          "active": false
         }
       },
-      "initialPrice": "140.700",
+      "initialPrice": "140700",
       "thumbnail": "bmwi8--grey",
       "selected": false
     },
@@ -47,36 +53,42 @@
           "colorName": "white",
           "colorCode": "#fff",
           "colorPrice": "0",
-          "colorOrder": 0
+          "colorOrder": 0,
+          "activeColor": true
         },
         "grey": {
           "colorName": "grey",
           "colorCode": "#303539",
           "colorPrice": "550",
-          "colorOrder": 1
+          "colorOrder": 1,
+          "activeColor": false
         },
         "orange metallic": {
           "colorName": "orange metallic",
           "colorCode": "#cf5a16",
           "colorPrice": "550",
-          "colorOrder": 2
+          "colorOrder": 2,
+          "activeColor": false
         }
       },
       "accessories": {
         "BMW Charging Station": {
           "accName": "BMW Charging Station",
-          "accPrice": "1.080"
+          "accPrice": "1080",
+          "active": false
         },
         "BMW Maintenance Program Upgrade": {
           "accName": "BMW Maintenance Program Upgrade",
-          "accPrice": "1.895"
+          "accPrice": "1895",
+          "active": false
         },
         "1 Year BMW Maintenance Program Upgrade": {
           "accName": "1 Year BMW Maintenance Program Upgrade",
-          "accPrice": "975"
+          "accPrice": "975",
+          "active": false
         }
       },
-      "initialPrice": "42.000",
+      "initialPrice": "42000",
       "thumbnail": "bmwi3--white",
       "selected": false
     }

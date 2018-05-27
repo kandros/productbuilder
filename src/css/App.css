@@ -522,6 +522,10 @@
   transform: translateY(150%);
 }
 
+[data-activecolor="true"]{
+  box-shadow: 0 0 0 2px var(--mainColor);
+}
+
 /* Media queries */
 @media all and (max-width: 1500px) {
   /* Header */
@@ -556,9 +560,5 @@
     padding: 10rem;
     padding-top: 4rem;
     padding-bottom: 0;
-  }
-
-  .footer {
-    height: 100px;
   }
 }

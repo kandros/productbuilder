@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 
 // Loop to create the color lists
-const createColorElements = (obj, activeModelCar, carSelected) => {
+const createColorElements = (obj, activeModelCar, carSelected, eventClick) => {
   // Check if user select a car
   if (!carSelected) return false;
   // Create the list array
@@ -19,13 +19,15 @@ const createColorElements = (obj, activeModelCar, carSelected) => {
         for (let colorKey in objColors) {
           if (objColors.hasOwnProperty(colorKey)) {
             let color = objColors[colorKey];
-            console.log(color);
             // Push the list into the array
             listArray.push(
               <li
                 key={color.colorCode}
                 className="car__colors"
-                data-color="color.colorName"
+                data-color={color.colorName}
+                data-price={color.colorPrice}
+                onClick={eventClick}
+                data-activecolor={color.activeColor}
                 style={{
                   backgroundColor: color.colorCode,
                   order: color.colorOrder
@@ -60,10 +62,9 @@ class PageColorsComponent extends Component {
             {createColorElements(
               this.props.carModelItems,
               this.props.activeModelCar,
-              this.props.carSelected
+              this.props.carSelected,
+              this.props.selectColor
             )}
-            {/* <li className="car__colors" data-color="grey" />
-            <li className="car__colors" data-color="perl" /> */}
           </ul>
         </div>
       </React.Fragment>
